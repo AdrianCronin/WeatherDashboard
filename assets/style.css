@@ -1,3 +1,18 @@
 .testClass {
     border: 1px solid red;
 }
+
+.testClass2 {
+    box-sizing: border-box;
+    background-color: blue;
+    height: 100%;
+    padding: 10px;
+}
+
+.testClass2 p{
+    color: white;
+}
+
+#forecast:last-child {
+    margin-right: 10px;
+}
