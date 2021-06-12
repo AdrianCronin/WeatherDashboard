@@ -1,3 +1,4 @@
+var APIkey = "dcfb96a772f695d113cf92e3cf42f4ab";
 var testEl = $('#testContainer');
 var searchBtnEl = $('#searchBtn');
 var searchFormEl = $('#search-form');
@@ -27,3 +28,20 @@ searchFormEl.on('submit', handleButtonAppend);
 
 
 // `);
+
+
+// Take search bar input
+    // get api response from weather
+    // get api response from forecast
+        // throw error if no response from either
+
+    // if not already in history aka memory
+        // save to history
+        // make history button
+
+    // parse response
+
+        // Display city name and Date
+
+        // display forecast 
+            // find icons
