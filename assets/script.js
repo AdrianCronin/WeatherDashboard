@@ -2,9 +2,10 @@ var APIkey = "dcfb96a772f695d113cf92e3cf42f4ab";
 var searchBtnEl = $('#searchBtn');
 var searchFormEl = $('#search-form');
 var historyBtnsEl = $('#historyBtns');
+var city;
 
-// this function will add more buttons
-function handleButtonAppend(event) {
+// this function will take the user's input and use it as an argument for function calls
+function handleSubmitEvent(event) {
     event.preventDefault();
 
     city = $('input[id="searchBar"]').val();
@@ -13,14 +14,9 @@ function handleButtonAppend(event) {
     searchHistory(city); // maybe move this into getCoordAPI so it doesnt run when errors
 };
 
-// Search button event
-searchFormEl.on('submit', handleButtonAppend);
-
-
 // take the user search input and makes a Current Weather API request to get the latitude and longitude of the city
 function getCoordApi(city) {
     var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIkey;
-
     fetch(coordApi)
         .then(function (response) {
             return response.json(); // make an error message if no response
@@ -28,7 +24,7 @@ function getCoordApi(city) {
         .then(function (data) {
             // console.log(data);
 
-            getForecastApi(data.coord); // have to call this function here due to fetch being asynchronous
+            getForecastApi(data.coord); // pass the data.coord object into One Call API request
 
         });
 };
@@ -120,7 +116,6 @@ function searchHistory(city) {
     renderBtns(newHistory);
 };
 
-
 // this will make buttons to search cities from the history.
 function renderBtns(arr) {
     var container = $('#historyBtns');
@@ -128,10 +123,20 @@ function renderBtns(arr) {
 
     for (var i = 0; i < arr.length; i++) {
         historyBtnsEl.append(`
-            <button class="button is-dark">${arr[i]}</button>
+            <button class="button is-dark" data-searchbtn="${arr[i]}">${arr[i]}</button>
         `);
     };
 };
+
+// search history button even
+historyBtnsEl.click(function (event) {
+    var target = event.target.getAttribute("data-searchbtn");
+    city = target;
+    getCoordApi(target);
+});
+
+searchFormEl.on('submit', handleSubmitEvent); // Search button event
+
 
 renderBtns(JSON.parse(localStorage.getItem("searchHistory"))); // initial rendering of buttons in storage
 
