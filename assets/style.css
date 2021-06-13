@@ -22,3 +22,26 @@
     border: 1px solid black;
     /* margin-left: 5px; */
 }
+
+.uvRed {
+    background-color: red;
+    color: white;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.uvYellow {
+    background-color: yellow;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.uvGreen {
+    background-color: green;
+    color: white;
+    border-radius: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
