@@ -22,15 +22,15 @@ function handleButtonAppend(event) {
 searchFormEl.on('submit', handleButtonAppend);
 
 
-// gets the latitude and longitude from a search city name
+// take the user search input and makes a Current Weather API request to get the latitude and longitude of the city
 function getCoordApi() {
-    
+
     // change this to call user input
     var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=East%20Wenatchee&appid=" + APIkey;
 
     fetch(coordApi)
         .then(function (response) {
-            return response.json();
+            return response.json(); // make an error message if no response
         })
         .then(function (data) {
 
@@ -40,10 +40,11 @@ function getCoordApi() {
     ;
 }
 
+
 getCoordApi();
 
 
-// takes the data.coord object as an argument
+// takes the data.coord object as an argument and makes a One Call API request
 function getForecastApi(obj) {
     var forecastApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + obj.lat + "&lon=" + obj.lon + "&exclude=current,minutely,hourly&appid=" + APIkey;
 
@@ -51,14 +52,21 @@ function getForecastApi(obj) {
         .then(function (response) {
             return response.json();
         })
-        .then(function (data){
+        .then(function (data) {
 
-            console.log(data);
-
+            console.log(data.daily);
+            renderForecast(data.daily);
         });
+};
 
 
+// take the data.daily[] array as an argument then uses it to create the forecast boxes
+function renderForecast(arr) {
 
+    console.log(arr[0].dt)
+    // console.log(Date(arr[0].dt));
+    var date = new Date(arr[1].dt * 1000).toLocaleDateString("en-US");
+    console.log(date);
 }
 
 
