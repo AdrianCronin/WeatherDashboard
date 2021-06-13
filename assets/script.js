@@ -13,12 +13,53 @@ function handleButtonAppend(event) {
     console.log("value of city is = " + city);
 
     historyBtnsEl.append(`
-        <button class="button is-light">${city}</button>
+        <button class="button is-dark">${city}</button>
     `);
-
 };
 
+// Search button event
 searchFormEl.on('submit', handleButtonAppend);
+
+// change this to call user input
+
+function getApi () {
+    
+    var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=East%20Wenatchee&appid=dcfb96a772f695d113cf92e3cf42f4ab";
+    var coords = {}; 
+
+    fetch(coordApi)
+     .then (function (response) {
+        return response.json();
+     })
+      .then (function (data) {
+        coords = data.coord;
+        console.log(coords); // this logs what I want
+      });
+    console.log(coords); // this logs before the fetch request for some reason
+}
+
+getApi();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // testEl.append(`
 
@@ -31,9 +72,10 @@ searchFormEl.on('submit', handleButtonAppend);
 
 
 // Take search bar input
-    // get api response from weather
-    // get api response from forecast
-        // throw error if no response from either
+    // get api response from weather with city name
+        // get lat and lon from response
+        // throw error if no response 
+    // get api response from onecall using Lat and Lon
 
     // if not already in history aka memory
         // save to history
