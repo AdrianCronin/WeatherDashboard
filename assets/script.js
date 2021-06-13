@@ -3,7 +3,7 @@ var testEl = $('#testContainer');
 var searchBtnEl = $('#searchBtn');
 var searchFormEl = $('#search-form');
 var historyBtnsEl = $('#historyBtns');
-var coords = {}; 
+var coords = {};
 
 
 // this function will add more buttons
@@ -21,25 +21,45 @@ function handleButtonAppend(event) {
 // Search button event
 searchFormEl.on('submit', handleButtonAppend);
 
-// change this to call user input
 
-function getApi () {
+// gets the latitude and longitude from a search city name
+function getCoordApi() {
     
-    var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=East%20Wenatchee&appid=dcfb96a772f695d113cf92e3cf42f4ab";
+    // change this to call user input
+    var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=East%20Wenatchee&appid=" + APIkey;
 
     fetch(coordApi)
-     .then (function (response) {
-        return response.json();
-     })
-      .then (function (data) {
-        coords = data.coord;
-        console.log(coords); // this logs what I want
-      });
-    console.log(coords); // this logs before the fetch request for some reason
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+            getForecastApi(data.coord); // have to call this function here due to fetch being asynchronous
+
+        });
+    ;
 }
 
-getApi();
-console.log(coords); // this still logs an empty object
+getCoordApi();
+
+
+// takes the data.coord object as an argument
+function getForecastApi(obj) {
+    var forecastApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + obj.lat + "&lon=" + obj.lon + "&exclude=current,minutely,hourly&appid=" + APIkey;
+
+    fetch(forecastApi)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data){
+
+            console.log(data);
+
+        });
+
+
+
+}
 
 
 
