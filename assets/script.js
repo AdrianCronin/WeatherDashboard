@@ -39,7 +39,7 @@ function getApi () {
 }
 
 getApi();
-console.log(coords); 
+console.log(coords); // this still logs an empty object
 
 
 
