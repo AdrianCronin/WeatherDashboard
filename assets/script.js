@@ -11,7 +11,6 @@ function handleSubmitEvent(event) {
     city = $('input[id="searchBar"]').val();
 
     getCoordApi(city);
-    searchHistory(city); // maybe move this into getCoordAPI so it doesnt run when errors
 };
 
 // take the user search input and makes a Current Weather API request to get the latitude and longitude of the city
@@ -19,7 +18,13 @@ function getCoordApi(city) {
     var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIkey;
     fetch(coordApi)
         .then(function (response) {
-            return response.json(); // make an error message if no response
+            if(response.status !== 200) {
+                $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find what you are looking for</p>`);
+            } else {
+                searchHistory(city); // only add to history if valid search
+            };
+            
+            return response.json();
         })
         .then(function (data) {
             // console.log(data);
@@ -136,7 +141,6 @@ historyBtnsEl.click(function (event) {
 });
 
 searchFormEl.on('submit', handleSubmitEvent); // Search button event
-
 
 renderBtns(JSON.parse(localStorage.getItem("searchHistory"))); // initial rendering of buttons in storage
 
