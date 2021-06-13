@@ -1,5 +1,4 @@
 var APIkey = "dcfb96a772f695d113cf92e3cf42f4ab";
-var testEl = $('#testContainer');
 var searchBtnEl = $('#searchBtn');
 var searchFormEl = $('#search-form');
 var historyBtnsEl = $('#historyBtns');
@@ -10,8 +9,10 @@ var city = "";
 function handleButtonAppend(event) {
     event.preventDefault();
 
-    var city = $('input[id="searchBar"]').val();
+    city = $('input[id="searchBar"]').val();
     console.log("value of city is = " + city);
+
+    getCoordApi(city);
 
     historyBtnsEl.append(`
         <button class="button is-dark">${city}</button>
@@ -23,8 +24,7 @@ searchFormEl.on('submit', handleButtonAppend);
 
 
 // take the user search input and makes a Current Weather API request to get the latitude and longitude of the city
-function getCoordApi() {
-    city = "East Wenatchee"; //change this to user input
+function getCoordApi(city) {
     var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIkey;
 
     fetch(coordApi)
@@ -37,11 +37,7 @@ function getCoordApi() {
             getForecastApi(data.coord); // have to call this function here due to fetch being asynchronous
 
         });
-    ;
-}
-
-
-
+};
 
 // takes the data.coord object as an argument and makes a One Call API request
 function getForecastApi(obj) {
@@ -52,20 +48,19 @@ function getForecastApi(obj) {
             return response.json();
         })
         .then(function (data) {
-
-            console.log(data.current);
-
+            // pass the data into rendering functions
             renderCurrent(data.current);
             renderForecast(data.daily);
         });
 };
 
-
 // take the data.daily[] array as an argument then uses it to create the forecast boxes
 function renderForecast(arr) {
+
     for (i = 1; i < arr.length; i++) {
         var date = new Date(arr[i].dt * 1000).toLocaleDateString("en-US"); // convert into miliseconds
         var container = $('#day' + i);
+        container.html('');
         var icon = "https://openweathermap.org/img/w/" + arr[i].weather[0].icon + ".png";
         var temp = arr[i].temp.day;
         var wind = arr[i].wind_speed;
@@ -81,12 +76,11 @@ function renderForecast(arr) {
     };
 };
 
-
-
 // take the data.current[] array as an argument then uses it to create the forecast boxes
 function renderCurrent(arr) {
-    var date = new Date(arr.dt * 1000).toLocaleDateString("en-US"); // convert into miliseconds
     var container = $('#currentWeather');
+    container.html(''); // clear out old stuff
+    var date = new Date(arr.dt * 1000).toLocaleDateString("en-US"); // convert into miliseconds
     var icon = "https://openweathermap.org/img/w/" + arr.weather[0].icon + ".png";
     var temp = arr.temp;
     var wind = arr.wind_speed;
@@ -110,52 +104,3 @@ function renderCurrent(arr) {
         <p class="subtitle is-6">UV Index: <span class="${color}"> ${uvIndex}</span></p>
         `);  
 };
-
-
-
-
-
-
-
-getCoordApi();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// testEl.append(`
-
-//     <div class="column">
-//         First column
-//     </div>
-
-
-// `);
-
-
-// Take search bar input
-    // get api response from weather with city name
-        // get lat and lon from response
-        // throw error if no response 
-    // get api response from onecall using Lat and Lon
-
-    // if not already in history aka memory
-        // save to history
-        // make history button
-
-    // parse response
-
-        // Display city name and Date
-
-        // display forecast 
-            // find icons
