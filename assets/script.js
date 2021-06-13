@@ -2,21 +2,18 @@ var APIkey = "dcfb96a772f695d113cf92e3cf42f4ab";
 var searchBtnEl = $('#searchBtn');
 var searchFormEl = $('#search-form');
 var historyBtnsEl = $('#historyBtns');
-var coords = {};
-var city = "";
+// var coords = {};
+// var city = "";
 
 // this function will add more buttons
 function handleButtonAppend(event) {
     event.preventDefault();
 
     city = $('input[id="searchBar"]').val();
-    console.log("value of city is = " + city);
+    // console.log("value of city is = " + city);
 
     getCoordApi(city);
-
-    historyBtnsEl.append(`
-        <button class="button is-dark">${city}</button>
-    `);
+    searchHistory(city);
 };
 
 // Search button event
@@ -102,5 +99,52 @@ function renderCurrent(arr) {
         <p class="subtitle is-6">Wind: ${wind} MPH</p>
         <p class="subtitle is-6">Humidity: ${humid} %</p>
         <p class="subtitle is-6">UV Index: <span class="${color}"> ${uvIndex}</span></p>
-        `);  
+        `);
 };
+
+
+function searchHistory(city) {
+    // if `city` exists in memory, dont add
+
+    var history = JSON.parse(localStorage.getItem("searchHistory"));
+
+    if (!history.includes(city)) {
+        history.unshift(city);
+    };
+
+    localStorage.setItem("searchHistory", history);
+
+
+};
+
+var history = JSON.parse(localStorage.getItem("searchHistory"));
+
+console.log(history);
+
+
+if(history.state == null) {
+    history = [];
+    history.push('a');
+};
+
+console.log(history);
+
+
+
+
+
+//   // move this to saveHistory
+//   historyBtnsEl.append(`
+//   <button class="button is-dark">${city}</button>
+// `);
+
+
+
+
+// press button
+// get localStorage
+// if not null
+    // JSON.parse into array
+    // check array for city
+        // if not in array add to array
+        // stringify to localStorage
