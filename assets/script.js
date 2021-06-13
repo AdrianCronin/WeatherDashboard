@@ -3,6 +3,7 @@ var testEl = $('#testContainer');
 var searchBtnEl = $('#searchBtn');
 var searchFormEl = $('#search-form');
 var historyBtnsEl = $('#historyBtns');
+var coords = {}; 
 
 
 // this function will add more buttons
@@ -25,7 +26,6 @@ searchFormEl.on('submit', handleButtonAppend);
 function getApi () {
     
     var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=East%20Wenatchee&appid=dcfb96a772f695d113cf92e3cf42f4ab";
-    var coords = {}; 
 
     fetch(coordApi)
      .then (function (response) {
@@ -39,6 +39,7 @@ function getApi () {
 }
 
 getApi();
+console.log(coords); 
 
 
 
