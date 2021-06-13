@@ -116,8 +116,24 @@ function searchHistory(city) {
     };
 
     localStorage.setItem("searchHistory", JSON.stringify(newHistory)); // save newHistory array to storage.
+
+    renderBtns(newHistory);
 };
 
+
+// this will make buttons to search cities from the history.
+function renderBtns(arr) {
+    var container = $('#historyBtns');
+    container.html(''); // clear element before rendering
+
+    for (var i = 0; i < arr.length; i++) {
+        historyBtnsEl.append(`
+            <button class="button is-dark">${arr[i]}</button>
+        `);
+    };
+};
+
+renderBtns(JSON.parse(localStorage.getItem("searchHistory"))); // initial rendering of buttons in storage
 
 
 
@@ -128,14 +144,3 @@ function searchHistory(city) {
 //   historyBtnsEl.append(`
 //   <button class="button is-dark">${city}</button>
 // `);
-
-
-
-
-// press button
-// get localStorage
-// if not null
-    // JSON.parse into array
-    // check array for city
-        // if not in array add to array
-        // stringify to localStorage
