@@ -12,6 +12,7 @@ function handleSubmitEvent(event) {
     if (city === '') {
         $('#currentWeather').html(`<p class="title is-3">Please Enter a City</p>`);
         $('#forecast').html('');
+        $('#forecastTitle').html('');
     } else {  
         getCoordApi(city);
     };
@@ -25,6 +26,7 @@ function getCoordApi(city) {
             if (response.status !== 200) {
                 $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find "${city}"</p>`);
                 $('#forecast').html('');
+                $('#forecastTitle').html('');
                 return;
             } else {
                 searchHistory(city); // only add to history if valid search
