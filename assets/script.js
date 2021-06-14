@@ -7,9 +7,8 @@ var city;
 // this function will take the user's input and use it as an argument for function calls
 function handleSubmitEvent(event) {
     event.preventDefault();
-
     city = $('input[id="searchBar"]').val();
-
+    city = capitalize(city);
     getCoordApi(city);
 };
 
@@ -135,6 +134,20 @@ function renderBtns(arr) {
             <button class="button is-dark" data-searchbtn="${arr[i]}">${arr[i]}</button>
         `);
     };
+};
+
+// this function takes the user's input and cleans it up removing white space and capitalizing 
+function capitalize(str) {
+    str = str.trim();
+    str = str.toLowerCase();
+    var words = str.split(' ')
+    str = '';
+    for (i = 0; i < words.length; i++) {
+        var foo = words[i];
+        foo = foo.charAt(0).toUpperCase() + foo.slice(1);
+        str += foo + " ";
+    }
+    return str.trim();
 };
 
 // search history button even
