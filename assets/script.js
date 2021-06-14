@@ -9,6 +9,7 @@ function handleSubmitEvent(event) {
     event.preventDefault();
     city = $('input[id="searchBar"]').val();
     city = capitalize(city);
+
     getCoordApi(city);
 };
 
@@ -19,6 +20,7 @@ function getCoordApi(city) {
         .then(function (response) {
             if (response.status !== 200) {
                 $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find what you are looking for</p>`);
+                $('#forecast').html('');
             } else {
                 searchHistory(city); // only add to history if valid search
             };
