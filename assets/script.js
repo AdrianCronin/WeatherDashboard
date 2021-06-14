@@ -136,10 +136,9 @@ function renderBtns(arr) {
     };
 };
 
-// this function takes the user's input and cleans it up removing white space and capitalizing 
+// this function takes the user's input and cleans it up removing white space and capitalizing each word
 function capitalize(str) {
-    str = str.trim();
-    str = str.toLowerCase();
+    str = str.trim().toLowerCase();
     var words = str.split(' ')
     str = '';
     for (i = 0; i < words.length; i++) {
@@ -150,7 +149,7 @@ function capitalize(str) {
     return str.trim();
 };
 
-// search history button even
+// search history button event
 historyBtnsEl.click(function (event) {
     var target = event.target.getAttribute("data-searchbtn");
     city = target;
