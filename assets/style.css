@@ -2,14 +2,14 @@
     border: 1px solid red;
 }
 
-.testClass2 {
+.forecastBox {
     box-sizing: border-box;
     background-color: blue;
     height: 100%;
     padding: 10px;
 }
 
-.testClass2 p{
+.forecastBox p{
     color: white;
 }
 
@@ -39,3 +39,8 @@
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.hidden {
+    display: none;
+}
+

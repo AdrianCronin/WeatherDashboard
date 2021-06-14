@@ -18,16 +18,15 @@ function getCoordApi(city) {
     var coordApi = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIkey;
     fetch(coordApi)
         .then(function (response) {
-            if(response.status !== 200) {
+            if (response.status !== 200) {
                 $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find what you are looking for</p>`);
             } else {
                 searchHistory(city); // only add to history if valid search
             };
-            
+
             return response.json();
         })
         .then(function (data) {
-            // console.log(data);
 
             getForecastApi(data.coord); // pass the data.coord object into One Call API request
 
@@ -49,24 +48,29 @@ function getForecastApi(obj) {
         });
 };
 
-// take the data.daily[] array as an argument then uses it to create the forecast boxes
+// take the data.daily array as an argument then uses it to create the forecast boxes
 function renderForecast(arr) {
+    var container = $('#forecast');
+    container.html('');
 
-    for (i = 1; i < arr.length; i++) {
+    for (i = 1; i < 6; i++) {
         var date = new Date(arr[i].dt * 1000).toLocaleDateString("en-US"); // convert into miliseconds
-        var container = $('#day' + i);
-        container.html('');
         var icon = "https://openweathermap.org/img/w/" + arr[i].weather[0].icon + ".png";
         var temp = arr[i].temp.day;
         var wind = arr[i].wind_speed;
         var humid = arr[i].humidity;
+
         // render each day to page
         container.append(`
-            <p class="title is-4">${date}</p>
-            <img src="${icon}">
-            <p class="subtitle is-6">Temp: ${temp} °F</p>
-            <p class="subtitle is-6">Wind: ${wind} MPH</p>
-            <p class="subtitle is-6">Humidity: ${humid} %</p>
+            <div class="column is-one-fifth">
+                <div class="forecastBox" id="day${i}">
+                    <p class="title is-4">${date}</p>
+                    <img src="${icon}">
+                    <p class="subtitle is-6">Temp: ${temp} °F</p>
+                    <p class="subtitle is-6">Wind: ${wind} MPH</p>
+                    <p class="subtitle is-6">Humidity: ${humid} %</p>
+                </div>
+            </div>
         `);
     };
 };
@@ -90,7 +94,7 @@ function renderCurrent(arr) {
         color = "uvGreen"
     };
 
-    // make UV index change color
+    // populates the element with current weather
     container.append(`
         <p class="title is-3">${city} (${date})<img src="${icon}"></p>
         <p class="subtitle is-6">Temp: ${temp} °F</p>
@@ -111,14 +115,14 @@ function searchHistory(city) {
         newHistory = oldHistory; // add the old history to the new history
     };
 
-    // if add city if missing from newHistory array
+    // add city if missing from newHistory array
     if (!newHistory.includes(city)) {
         newHistory.unshift(city);
     };
 
     localStorage.setItem("searchHistory", JSON.stringify(newHistory)); // save newHistory array to storage.
 
-    renderBtns(newHistory);
+    renderBtns(newHistory); // re-renders buttons with new list
 };
 
 // this will make buttons to search cities from the history.
@@ -142,14 +146,4 @@ historyBtnsEl.click(function (event) {
 
 searchFormEl.on('submit', handleSubmitEvent); // Search button event
 
-renderBtns(JSON.parse(localStorage.getItem("searchHistory"))); // initial rendering of buttons in storage
-
-
-
-
-
-
-//   // move this to saveHistory
-//   historyBtnsEl.append(`
-//   <button class="button is-dark">${city}</button>
-// `);
+renderBtns(JSON.parse(localStorage.getItem("searchHistory"))); // render buttons out of storage on page load
