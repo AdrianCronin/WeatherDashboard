@@ -4,13 +4,17 @@
 
 .forecastBox {
     box-sizing: border-box;
-    background-color: blue;
+    background-color: #33475A;
     height: 100%;
     padding: 10px;
 }
 
 .forecastBox p{
     color: white;
+}
+
+.forecastBox:last-child {
+    margin-bottom: 10px;
 }
 
 #forecast:last-child {
@@ -62,4 +66,8 @@
 
 div.currentWeatherBorder {
     border: 1px solid black;
+}
+
+#heroBar {
+    background: linear-gradient(to right, #0b5ee5 0%, #28114b 100%);
 }
