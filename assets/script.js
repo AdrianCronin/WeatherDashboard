@@ -157,10 +157,14 @@ function capitalize(str) {
 
 // search history button event
 historyBtnsEl.click(function (event) {
-    console.log(event);
     var target = event.target.getAttribute("data-searchbtn");
-    city = target;
-    getCoordApi(target);
+
+    if (target === null) {
+        return
+    } else {
+        city = target;
+        getCoordApi(target);
+    };
 });
 
 searchFormEl.on('submit', handleSubmitEvent); // Search button event
