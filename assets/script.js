@@ -21,6 +21,7 @@ function getCoordApi(city) {
             if (response.status !== 200) {
                 $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find "${city}"</p>`);
                 $('#forecast').html('');
+                return;
             } else {
                 searchHistory(city); // only add to history if valid search
             };
@@ -81,6 +82,7 @@ function renderForecast(arr) {
 function renderCurrent(arr) {
     var container = $('#currentWeather');
     container.html(''); // clear out old stuff
+    container.addClass('currentWeatherBorder');
     var date = new Date(arr.dt * 1000).toLocaleDateString("en-US"); // convert into miliseconds
     var icon = "https://openweathermap.org/img/w/" + arr.weather[0].icon + ".png";
     var temp = arr.temp;
