@@ -8,7 +8,7 @@ var city;
 function handleSubmitEvent(event) {
     event.preventDefault();
     city = $('input[id="searchBar"]').val();
-    city = capitalize(city);
+    city = capitalize(city); // take the user input and clean it up
 
     getCoordApi(city);
 };
@@ -19,7 +19,7 @@ function getCoordApi(city) {
     fetch(coordApi)
         .then(function (response) {
             if (response.status !== 200) {
-                $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find what you are looking for</p>`);
+                $('#currentWeather').html(`<p class="title is-3">I'm sorry, we cannot find "${city}"</p>`);
                 $('#forecast').html('');
             } else {
                 searchHistory(city); // only add to history if valid search
@@ -43,7 +43,7 @@ function getForecastApi(obj) {
             return response.json();
         })
         .then(function (data) {
-            // pass the data into rendering functions
+            // pass only the data needed into the rendering functions
             renderCurrent(data.current);
             renderForecast(data.daily);
         });
@@ -52,8 +52,9 @@ function getForecastApi(obj) {
 // take the data.daily array as an argument then uses it to create the forecast boxes
 function renderForecast(arr) {
     var container = $('#forecast');
-    container.html('');
+    container.html(''); // clear the container before rendering more
 
+    // for loop iteratively generates the forecast boxes
     for (i = 1; i < 6; i++) {
         var date = new Date(arr[i].dt * 1000).toLocaleDateString("en-US"); // convert into miliseconds
         var icon = "https://openweathermap.org/img/w/" + arr[i].weather[0].icon + ".png";
@@ -61,7 +62,6 @@ function renderForecast(arr) {
         var wind = arr[i].wind_speed;
         var humid = arr[i].humidity;
 
-        // render each day to page
         container.append(`
             <div class="column is-one-fifth">
                 <div class="forecastBox" id="day${i}">
@@ -76,7 +76,7 @@ function renderForecast(arr) {
     };
 };
 
-// take the data.current[] array as an argument then uses it to create the forecast boxes
+// take the data.current[] array as an argument then uses it to create the current weather box
 function renderCurrent(arr) {
     var container = $('#currentWeather');
     container.html(''); // clear out old stuff
@@ -87,6 +87,7 @@ function renderCurrent(arr) {
     var humid = arr.humidity;
     var uvIndex = arr.uvi;
     var color;
+
     if (uvIndex > 5) {
         color = "uvRed"
     } else if (uvIndex < 5 && uvIndex > 2) {
@@ -131,6 +132,7 @@ function renderBtns(arr) {
     var container = $('#historyBtns');
     container.html(''); // clear element before rendering
 
+    // for loop iteratively creates buttons for each city in the array 
     for (var i = 0; i < arr.length; i++) {
         historyBtnsEl.append(`
             <button class="button is-dark" data-searchbtn="${arr[i]}">${arr[i]}</button>
@@ -140,15 +142,16 @@ function renderBtns(arr) {
 
 // this function takes the user's input and cleans it up removing white space and capitalizing each word
 function capitalize(str) {
-    str = str.trim().toLowerCase();
-    var words = str.split(' ')
-    str = '';
+    str = str.trim().toLowerCase(); // remove extra whitespace and change all letters to lower case
+    var words = str.split(' ') // split string into array of individual words
+    str = ''; // clear string variable since all the words are saved in an array
+    // this loop takes each word in the array and capitalizes the first letter then adds each word to the new string with a space following 
     for (i = 0; i < words.length; i++) {
-        var foo = words[i];
-        foo = foo.charAt(0).toUpperCase() + foo.slice(1);
+        var foo = words[i]; 
+        foo = foo.charAt(0).toUpperCase() + foo.slice(1); 
         str += foo + " ";
     }
-    return str.trim();
+    return str.trim(); // return the new string with the last space removed
 };
 
 // search history button event
