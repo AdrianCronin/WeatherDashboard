@@ -9,8 +9,12 @@ function handleSubmitEvent(event) {
     event.preventDefault();
     city = $('input[id="searchBar"]').val();
     city = capitalize(city); // take the user input and clean it up
-
-    getCoordApi(city);
+    if (city === '') {
+        $('#currentWeather').html(`<p class="title is-3">Please Enter a City</p>`);
+        $('#forecast').html('');
+    } else {  
+        getCoordApi(city);
+    };
 };
 
 // take the user search input and makes a Current Weather API request to get the latitude and longitude of the city
@@ -150,8 +154,8 @@ function capitalize(str) {
     str = ''; // clear string variable since all the words are saved in an array
     // this loop takes each word in the array and capitalizes the first letter then adds each word to the new string with a space following 
     for (i = 0; i < words.length; i++) {
-        var foo = words[i]; 
-        foo = foo.charAt(0).toUpperCase() + foo.slice(1); 
+        var foo = words[i];
+        foo = foo.charAt(0).toUpperCase() + foo.slice(1);
         str += foo + " ";
     }
     return str.trim(); // return the new string with the last space removed
