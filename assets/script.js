@@ -53,6 +53,7 @@ function getForecastApi(obj) {
 function renderForecast(arr) {
     var container = $('#forecast');
     container.html(''); // clear the container before rendering more
+    $('#forecastTitle').html('5-Day Forecast:');
 
     // for loop iteratively generates the forecast boxes
     for (i = 1; i < 6; i++) {
@@ -156,6 +157,7 @@ function capitalize(str) {
 
 // search history button event
 historyBtnsEl.click(function (event) {
+    console.log(event);
     var target = event.target.getAttribute("data-searchbtn");
     city = target;
     getCoordApi(target);
