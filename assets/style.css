@@ -71,3 +71,7 @@ div.currentWeatherBorder {
 #heroBar {
     background: linear-gradient(to right, #0b5ee5 0%, #28114b 100%);
 }
+
+div#leftBar {
+    margin: 10px;
+}
